@@ -36,92 +36,111 @@ namespace gauss2
 
         private void button1_Click(object sender, EventArgs e)
         {
+            int error = 0;
+
             textBox2.Clear();
             double[][] rows = new double[textBox1.Lines.Length][];
+
+            label3.Text = textBox1.Lines.Length.ToString();
+
+            
             for (int i = 0; i < rows.Length; i++)
             {
-                rows[i] = (double[])Array.ConvertAll(textBox1.Lines[i].Split(' '), double.Parse);
+                try
+                {
+                    rows[i] = (double[])Array.ConvertAll(textBox1.Lines[i].Split(' '), double.Parse);
+                }
+                catch
+                {
+                    System.Windows.Forms.MessageBox.Show("Błędnie wprowadzone dane");
+                    error = 1;
+                    break;
+                }
             }
 
-            int length = rows[0].Length;
-            for (int i = 0; i < rows.Length - 1; i++)
+            if (error == 0)
             {
-                for (int j = i; j < rows.Length; j++)
+                int length = rows[0].Length;
+                for (int i = 0; i < rows.Length - 1; i++)
                 {
-                    double[] d = new double[length];
-                    for (int x = 0; x < length; x++)
+                    for (int j = i; j < rows.Length; j++)
                     {
-                        if (i == j && rows[j][i] == 0)
+                        double[] d = new double[length];
+                        for (int x = 0; x < length; x++)
                         {
-                            bool changed = false;
-                            for (int z = rows.Length - 1; z > i; z--)
+                            if (i == j && rows[j][i] == 0)
                             {
-                                if (rows[z][i] != 0)
+                                bool changed = false;
+                                for (int z = rows.Length - 1; z > i; z--)
                                 {
-                                    double[] temp = new double[length];
-                                    temp = rows[z];
-                                    rows[z] = rows[j];
-                                    rows[j] = temp;
-                                    changed = true;
+                                    if (rows[z][i] != 0)
+                                    {
+                                        double[] temp = new double[length];
+                                        temp = rows[z];
+                                        rows[z] = rows[j];
+                                        rows[j] = temp;
+                                        changed = true;
+                                    }
+                                }
+                                if (!changed)
+                                {
+                                    textBox2.Text += "Brak rozwiązań\r\n";
+                                    return;
                                 }
                             }
-                            if (!changed)
+                            if (rows[j][i] != 0)
                             {
-                                textBox2.Text += "Brak rozwiązań\r\n";
-                                return;
+                                d[x] = rows[j][x] / rows[j][i];
+                            }
+                            else
+                            {
+                                d[x] = rows[j][x];
                             }
                         }
-                        if (rows[j][i] != 0)
-                        {
-                            d[x] = rows[j][x] / rows[j][i];
-                        }
-                        else
-                        {
-                            d[x] = rows[j][x];
-                        }
+                        rows[j] = d;
                     }
-                    rows[j] = d;
-                }
-                for (int y = i + 1; y < rows.Length; y++)
-                {
-                    double[] f = new double[length];
-                    for (int g = 0; g < length; g++)
+                    for (int y = i + 1; y < rows.Length; y++)
                     {
-                        if (rows[y][i] != 0)
+                        double[] f = new double[length];
+                        for (int g = 0; g < length; g++)
                         {
-                            f[g] = rows[y][g] - rows[i][g];
+                            if (rows[y][i] != 0)
+                            {
+                                f[g] = rows[y][g] - rows[i][g];
+                            }
+                            else
+                            {
+                                f[g] = rows[y][g];
+                            }
                         }
-                        else
-                        {
-                            f[g] = rows[y][g];
-                        }
+                        rows[y] = f;
                     }
-                    rows[y] = f;
                 }
-            }
 
-            double val = 0;
-            int k = length - 2;
-            double[] result = new double[rows.Length];
-            for (int i = rows.Length - 1; i >= 0; i--)
-            {
-                val = rows[i][length - 1];
-                for (int x = length - 2; x > k; x--)
+                double val = 0;
+                int k = length - 2;
+                double[] result = new double[rows.Length];
+                for (int i = rows.Length - 1; i >= 0; i--)
                 {
-                    val -= rows[i][x] * result[x];
+                    val = rows[i][length - 1];
+                    for (int x = length - 2; x > k; x--)
+                    {
+                        val -= rows[i][x] * result[x];
+                    }
+                    result[i] = val / rows[i][i];
+                    if (result[i].ToString() == "NaN" || result[i].ToString().Contains("Infinity"))
+                    {
+                        textBox2.Text += "No Solution Found!\n";
+                        return;
+                    }
+                    k--;
                 }
-                result[i] = val / rows[i][i];
-                if (result[i].ToString() == "NaN" || result[i].ToString().Contains("Infinity"))
+                for (int i = 0; i < result.Length; i++)
                 {
-                    textBox2.Text += "No Solution Found!\n";
-                    return;
+                    textBox2.Text += string.Format("X{0} = {1}\r\n", i + 1, Math.Round(result[i], 10));
                 }
-                k--;
             }
-            for (int i = 0; i < result.Length; i++)
-            {
-                textBox2.Text += string.Format("X{0} = {1}\r\n", i + 1, Math.Round(result[i], 10));
-            }
+            
         }
 
         private void label1_Click(object sender, EventArgs e)
