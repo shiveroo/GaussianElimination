@@ -36,7 +36,7 @@ namespace gauss2
 
         private void button1_Click(object sender, EventArgs e)
         {
-            int error = 0;
+            int error = 1;
 
             textBox2.Clear();
             double[][] rows = new double[textBox1.Lines.Length][];
@@ -49,6 +49,7 @@ namespace gauss2
                 try
                 {
                     rows[i] = (double[])Array.ConvertAll(textBox1.Lines[i].Split(' '), double.Parse);
+                    error = 0;
                 }
                 catch
                 {
