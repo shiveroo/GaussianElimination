@@ -10,55 +10,61 @@ using System.Windows.Forms;
 
 namespace gauss2
 {
-    public partial class Form1 : Form
+    public partial class Form3 : Form
     {
-        public Form1()
+        public Form3()
         {
             InitializeComponent();
-            label1.Text = "Wprowadź parametry układu równań\nKażde równanie - nowa linia";
-            label2.Text = "Rozwiązanie układu: ";
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
+            button1.Text = "Oblicz";
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
+            gaussJordan();
+        }
+
+        private void gaussJordan()
+        {
             int error = 1;
+            int n = 0;
 
-            textBox2.Clear();
-            double[][] rows = new double[textBox1.Lines.Length][];
-
-            
-            for (int i = 0; i < rows.Length; i++)
+            try
             {
-                try
-                {
-                    rows[i] = (double[])Array.ConvertAll(textBox1.Lines[i].Split(' '), double.Parse);
-                    error = 0;
-                }
-                catch
-                {
-                    System.Windows.Forms.MessageBox.Show("Błędnie wprowadzone dane");
-                    error = 1;
-                    break;
-                }
+                n = int.Parse(textBox2.Text);
+            }
+            catch
+            {
+                System.Windows.Forms.MessageBox.Show("Error");
+            }
+      
+            if (n < 2)
+            {
+                System.Windows.Forms.MessageBox.Show("Podaj poprawną wielkość macierzy");
             }
 
-                if (error == 0)
+            
+
+
+
+            //for (int i = 0; i < rows.Length; i++)
+            //{
+            //    try
+            //    {
+            //        rows[i] = (double[])Array.ConvertAll(textBox1.Lines[i].Split(' '), double.Parse);
+            //        error = 0;
+            //    }
+            //    catch
+            //    {
+            //        System.Windows.Forms.MessageBox.Show("Błędnie wprowadzone dane");
+            //        error = 1;
+            //        break;
+            //    }
+            //}
+
+            if (error == 0)
             {
+                double[][] rows = new double[n][];
+
                 int length = rows[0].Length;
                 for (int i = 0; i < rows.Length - 1; i++)
                 {
@@ -83,7 +89,7 @@ namespace gauss2
                                 }
                                 if (!changed)
                                 {
-                                    textBox2.Text += "Brak rozwiązań\r\n";
+                                    textBox1.Text += "Brak rozwiązań\r\n";
                                     return;
                                 }
                             }
@@ -129,25 +135,39 @@ namespace gauss2
                     result[i] = val / rows[i][i];
                     if (result[i].ToString() == "NaN" || result[i].ToString().Contains("Infinity"))
                     {
-                        textBox2.Text += "No Solution Found!\n";
+                        textBox1.Text += "No Solution Found!\n";
                         return;
                     }
                     k--;
                 }
                 for (int i = 0; i < result.Length; i++)
                 {
-                    textBox2.Text += string.Format("X{0} = {1}\r\n", i + 1, Math.Round(result[i], 10));
+                    textBox1.Text += string.Format("X{0} = {1}\r\n", i + 1, Math.Round(result[i], 10));
                 }
             }
-            
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
         {
 
         }
 
         private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
 
         }

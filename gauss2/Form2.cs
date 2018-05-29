@@ -30,5 +30,11 @@ namespace gauss2
             Form1 userData = new Form1();
             userData.Show();
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Form3 autoData = new Form3();
+            autoData.Show();
+        }
     }
 }
