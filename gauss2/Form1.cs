@@ -57,9 +57,19 @@ namespace gauss2
                 }
             }
 
-                if (error == 0)
+            for (int i = 0; i < rows[0].Length; i++)
+            {
+                for (int j = 0; j < rows.Length; j++)
+                {
+                    textBox1.Text += rows[i][j].ToString() + " ";
+                }
+                textBox1.AppendText(Environment.NewLine);
+            }
+
+            if (error == 0)
             {
                 int length = rows[0].Length;
+                label3.Text = length.ToString();
                 for (int i = 0; i < rows.Length - 1; i++)
                 {
                     for (int j = i; j < rows.Length; j++)

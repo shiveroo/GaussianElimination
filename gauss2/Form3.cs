@@ -42,29 +42,32 @@ namespace gauss2
                 System.Windows.Forms.MessageBox.Show("Podaj poprawną wielkość macierzy");
             }
 
-            
+            double[][] rows = new double[n][];
 
+            Random rnd = new Random();
 
+            for (int i = 0; i < n; i++)
+            {
+                rows[i] = new double[n];
 
-            //for (int i = 0; i < rows.Length; i++)
-            //{
-            //    try
-            //    {
-            //        rows[i] = (double[])Array.ConvertAll(textBox1.Lines[i].Split(' '), double.Parse);
-            //        error = 0;
-            //    }
-            //    catch
-            //    {
-            //        System.Windows.Forms.MessageBox.Show("Błędnie wprowadzone dane");
-            //        error = 1;
-            //        break;
-            //    }
-            //}
+                for (int j = 0; j < n; j++)
+                {                 
+                    rows[i][j] = rnd.Next(-100, 100);
+                }
+            }
+
+            for (int i = 0; i < n; i++)
+            {             
+                for (int j = 0; j < n; j++)
+                {
+                    textBox1.Text += rows[i][j].ToString() + " ";
+                }
+                textBox1.AppendText(Environment.NewLine);
+            }
+
 
             if (error == 0)
-            {
-                double[][] rows = new double[n][];
-
+            {              
                 int length = rows[0].Length;
                 for (int i = 0; i < rows.Length - 1; i++)
                 {
