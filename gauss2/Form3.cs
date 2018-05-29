@@ -16,14 +16,24 @@ namespace gauss2
         {
             InitializeComponent();
             textBox1.ScrollBars = ScrollBars.Vertical;
+            textBox3.ScrollBars = ScrollBars.Vertical;
+            textBox4.ScrollBars = ScrollBars.Vertical;
             button1.Text = "Oblicz";
             label6.Text = " ";
+            label10.Text = " ";
+            label11.Text = " ";
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             textBox1.Clear();
             gaussJordan();
+        }
+
+        public double GetRandomNumber(double minimum, double maximum, Random random)
+        {
+            
+            return random.NextDouble() * (maximum - minimum) + minimum;
         }
 
         private void gaussJordan()
@@ -33,16 +43,25 @@ namespace gauss2
 
             int error = 1;
             int n = 0;
+            double mmin = 0, mmax = 0, xmin = 0, xmax = 0;
 
             DateTime dt = DateTime.Now;
 
             try
             {
+                error = 0;
+
                 n = int.Parse(textBox2.Text);
+                mmin = double.Parse(textBox5.Text);
+                mmax = double.Parse(textBox6.Text);
+                xmin = double.Parse(textBox7.Text);
+                xmax = double.Parse(textBox8.Text);
             }
             catch
             {
+                error = 1;
                 System.Windows.Forms.MessageBox.Show("Error");
+                label6.Text = "Error";
             }
       
             if (n < 2)
@@ -50,34 +69,61 @@ namespace gauss2
                 System.Windows.Forms.MessageBox.Show("Podaj poprawną wielkość macierzy");
             }
 
-            double[][] rows = new double[n][];
 
-            Random rnd = new Random();
-
-            for (int i = 0; i < n; i++)
-            {
-                rows[i] = new double[n + 1];
-
-                for (int j = 0; j < n + 1; j++)
-                {                 
-                    rows[i][j] = rnd.Next(1, 5);
-                }
-            }
 
             //Printing results
             //for (int i = 0; i < n; i++)
-            //{             
+            //{
             //    for (int j = 0; j < n + 1; j++)
             //    {
             //        textBox1.Text += rows[i][j].ToString() + " ";
             //    }
             //    textBox1.AppendText(Environment.NewLine);
-            //}
-
-            error = 0;
+            //}          
 
             if (error == 0)
-            {              
+            {
+                double[][] rows = new double[n][];
+                double[] x_dok = new double[n];
+                double[] b_dok = new double[n];
+
+                Random rnd = new Random();
+
+                for (int i = 0; i < n; i++)
+                {
+                    rows[i] = new double[n + 1];
+
+                    //x_dok[i] = GetRandomNumber(0.0001 , 100000, rnd);
+                    x_dok[i] = GetRandomNumber(xmin, xmax, rnd);
+
+                    for (int j = 0; j < n + 1; j++)
+                    {
+                        rows[i][j] = GetRandomNumber(1000, 100000, rnd);
+                        x_dok[i] = GetRandomNumber(mmin, mmax, rnd);
+                    }
+                }
+
+                for (int i = 0; i < n; i++)
+                {
+                    for (int j = 0; j < n; j++)
+                    {
+                        b_dok[i] += rows[i][j] * x_dok[j];
+                    }
+                }
+
+                for (int i = 0; i < n; i++)
+                {
+                    for (int j = 0; j < n + 1; j++)
+                    {
+                        if (j == n)
+                        {
+                            rows[i][j] = b_dok[i];
+                            textBox1.Text += "X_dok " + (i + 1) + ": " + x_dok[i].ToString();
+                            textBox1.AppendText(Environment.NewLine);
+                        }
+                    }
+                }
+
                 int length = rows[0].Length;
                 for (int i = 0; i < rows.Length - 1; i++)
                 {
@@ -121,6 +167,7 @@ namespace gauss2
                         }
                         rows[j] = d;
                     }
+
                     for (int y = i + 1; y < rows.Length; y++)
                     {
                         double[] f = new double[length];
@@ -138,8 +185,6 @@ namespace gauss2
                         rows[y] = f;
                     }
                 }
-
-                
 
                 double val = 0;
                 int k = length - 2;
@@ -159,9 +204,30 @@ namespace gauss2
                     }
                     k--;
                 }
+
+                double min = 1000000000000000;
+                double max = -10;
+
                 for (int i = 0; i < result.Length; i++)
-                {
-                    textBox1.Text += string.Format("X{0} = {1}\r\n", i + 1, Math.Round(result[i], 10));
+                {                   
+                    double blad = Math.Abs(x_dok[i] - result[i]);
+
+                    if(blad < min)
+                    {
+                        min = blad;
+                    }
+
+                    if(blad > max)
+                    {
+                        max = blad;
+                    }
+
+                    textBox3.Text += string.Format("X{0} = {1}\r\n", i + 1, Math.Round(result[i], 15));
+                    textBox4.Text += blad.ToString();
+                    textBox4.AppendText(Environment.NewLine);
+
+                    label10.Text = "Błąd min.: " + min;
+                    label11.Text = "Błąd max.: " + max;
                 }
 
                 label6.Text = "Koniec";
@@ -199,6 +265,26 @@ namespace gauss2
         }
 
         private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox4_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label9_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label10_Click(object sender, EventArgs e)
         {
 
         }

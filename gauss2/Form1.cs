@@ -126,6 +126,8 @@ namespace gauss2
                     }
                 }
 
+
+
                 double val = 0;
                 int k = length - 2;
                 double[] result = new double[rows.Length];
@@ -146,7 +148,7 @@ namespace gauss2
                 }
                 for (int i = 0; i < result.Length; i++)
                 {
-                    textBox2.Text += string.Format("X{0} = {1}\r\n", i + 1, Math.Round(result[i], 10));
+                    textBox2.Text += string.Format("X{0} = {1}\r\n", i + 1, Math.Round(result[i], 15));
                 }
             }
             
