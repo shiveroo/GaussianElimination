@@ -15,18 +15,26 @@ namespace gauss2
         public Form3()
         {
             InitializeComponent();
+            textBox1.ScrollBars = ScrollBars.Vertical;
             button1.Text = "Oblicz";
+            label6.Text = " ";
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
+            textBox1.Clear();
             gaussJordan();
         }
 
         private void gaussJordan()
         {
+            label6.Text = "Uruchomiono";
+            label6.Refresh();
+
             int error = 1;
             int n = 0;
+
+            DateTime dt = DateTime.Now;
 
             try
             {
@@ -48,23 +56,25 @@ namespace gauss2
 
             for (int i = 0; i < n; i++)
             {
-                rows[i] = new double[n];
+                rows[i] = new double[n + 1];
 
-                for (int j = 0; j < n; j++)
+                for (int j = 0; j < n + 1; j++)
                 {                 
-                    rows[i][j] = rnd.Next(-100, 100);
+                    rows[i][j] = rnd.Next(1, 5);
                 }
             }
 
-            for (int i = 0; i < n; i++)
-            {             
-                for (int j = 0; j < n; j++)
-                {
-                    textBox1.Text += rows[i][j].ToString() + " ";
-                }
-                textBox1.AppendText(Environment.NewLine);
-            }
+            //Printing results
+            //for (int i = 0; i < n; i++)
+            //{             
+            //    for (int j = 0; j < n + 1; j++)
+            //    {
+            //        textBox1.Text += rows[i][j].ToString() + " ";
+            //    }
+            //    textBox1.AppendText(Environment.NewLine);
+            //}
 
+            error = 0;
 
             if (error == 0)
             {              
@@ -73,6 +83,10 @@ namespace gauss2
                 {
                     for (int j = i; j < rows.Length; j++)
                     {
+                        TimeSpan ts = DateTime.Now - dt;
+                        label4.Text = ts.TotalMilliseconds.ToString() + " ms";
+                        label4.Refresh();
+
                         double[] d = new double[length];
                         for (int x = 0; x < length; x++)
                         {
@@ -125,6 +139,8 @@ namespace gauss2
                     }
                 }
 
+                
+
                 double val = 0;
                 int k = length - 2;
                 double[] result = new double[rows.Length];
@@ -147,6 +163,8 @@ namespace gauss2
                 {
                     textBox1.Text += string.Format("X{0} = {1}\r\n", i + 1, Math.Round(result[i], 10));
                 }
+
+                label6.Text = "Koniec";
             }
         }
 
@@ -171,6 +189,16 @@ namespace gauss2
         }
 
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
         {
 
         }
