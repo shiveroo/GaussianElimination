@@ -22,6 +22,7 @@ namespace gauss2
             label6.Text = " ";
             label10.Text = " ";
             label11.Text = " ";
+            
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -83,6 +84,10 @@ namespace gauss2
 
             if (error == 0)
             {
+                this.progressBar1.Maximum = (n * n)/2;
+                this.progressBar1.Value = 1;
+                this.progressBar1.Step = 1;
+
                 double[][] rows = new double[n][];
                 double[] x_dok = new double[n];
                 double[] b_dok = new double[n];
@@ -123,19 +128,24 @@ namespace gauss2
                         }
                     }
                 }
-
+                int counter = 0;
                 int length = rows[0].Length;
                 for (int i = 0; i < rows.Length - 1; i++)
-                {
+                {                  
                     for (int j = i; j < rows.Length; j++)
                     {
+                        progressBar1.PerformStep();
+
                         TimeSpan ts = DateTime.Now - dt;
                         label4.Text = ts.TotalMilliseconds.ToString() + " ms";
                         label4.Refresh();
+                        counter++;
 
                         double[] d = new double[length];
                         for (int x = 0; x < length; x++)
                         {
+                            
+
                             if (i == j && rows[j][i] == 0)
                             {
                                 bool changed = false;
@@ -285,6 +295,11 @@ namespace gauss2
         }
 
         private void label10_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void progressBar1_Click(object sender, EventArgs e)
         {
 
         }
