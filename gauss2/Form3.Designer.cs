@@ -316,7 +316,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 29F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1598, 1108);
+            this.ClientSize = new System.Drawing.Size(1591, 1095);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label10);

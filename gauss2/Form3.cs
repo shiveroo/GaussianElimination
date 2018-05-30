@@ -236,7 +236,7 @@ namespace gauss2
                     textBox4.Text += blad.ToString();
                     textBox4.AppendText(Environment.NewLine);
 
-                    label10.Text = "Błąd min.: " + min;
+                    label10.Text = "Błąd min.: " + min; 
                     label11.Text = "Błąd max.: " + max;
                 }
 

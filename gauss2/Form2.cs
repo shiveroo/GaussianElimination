@@ -15,7 +15,6 @@ namespace gauss2
         public Form2()
         {
             InitializeComponent();
-            label1.Text = "Jordan Gauss Elimination";
             button1.Text = "Wprowadź dane ręcznie";
             button2.Text = "Losuj dane";
         }
@@ -35,6 +34,11 @@ namespace gauss2
         {
             Form3 autoData = new Form3();
             autoData.Show();
+        }
+
+        private void Form2_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

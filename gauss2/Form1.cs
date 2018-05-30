@@ -17,6 +17,9 @@ namespace gauss2
             InitializeComponent();
             label1.Text = "Wprowadź parametry układu równań\nKażde równanie - nowa linia";
             label2.Text = "Rozwiązanie układu: ";
+            textBox1.ScrollBars = ScrollBars.Vertical;
+            textBox2.ScrollBars = ScrollBars.Vertical;
+            label3.Text = "";
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -69,7 +72,6 @@ namespace gauss2
             if (error == 0)
             {
                 int length = rows[0].Length;
-                label3.Text = length.ToString();
                 for (int i = 0; i < rows.Length - 1; i++)
                 {
                     for (int j = i; j < rows.Length; j++)
