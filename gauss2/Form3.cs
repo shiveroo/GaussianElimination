@@ -28,6 +28,8 @@ namespace gauss2
         private void button1_Click(object sender, EventArgs e)
         {
             textBox1.Clear();
+            textBox4.Clear();
+            textBox3.Clear();
             gaussJordan();
         }
 
@@ -103,8 +105,8 @@ namespace gauss2
 
                     for (int j = 0; j < n + 1; j++)
                     {
-                        rows[i][j] = GetRandomNumber(1000, 100000, rnd);
-                        x_dok[i] = GetRandomNumber(mmin, mmax, rnd);
+                        rows[i][j] = GetRandomNumber(mmin, mmax, rnd);
+                        //x_dok[i] = GetRandomNumber(mmin, mmax, rnd);
                     }
                 }
 
